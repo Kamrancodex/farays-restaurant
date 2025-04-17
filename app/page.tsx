@@ -1,42 +1,42 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useState } from "react"
-import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, Menu, Phone, MapPin, X } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
-import { ReservationPanel } from "@/components/reservation-panel"
-import { CustomCursor } from "@/components/custom-cursor"
-import { useMobile } from "@/hooks/use-mobile"
-import Link from "next/link"
+import { useEffect, useRef, useState } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight, Menu, Phone, MapPin, X } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { ReservationPanel } from "@/components/reservation-panel";
+import { CustomCursor } from "@/components/custom-cursor";
+import { useMobile } from "@/hooks/use-mobile";
+import Link from "next/link";
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const [reservationOpen, setReservationOpen] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const isMobile = useMobile()
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [reservationOpen, setReservationOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useMobile();
 
   // Parallax effects
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
-  })
+  });
 
-  const heroTextY = useTransform(scrollYProgress, [0, 0.2], [0, -100])
-  const heroImageScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1])
+  const heroTextY = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
+  const heroImageScale = useTransform(scrollYProgress, [0, 0.2], [1, 1.1]);
 
   // Handle escape key for modals
   useEffect(() => {
     const handleEsc = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        setMenuOpen(false)
-        setReservationOpen(false)
+        setMenuOpen(false);
+        setReservationOpen(false);
       }
-    }
+    };
 
-    window.addEventListener("keydown", handleEsc)
-    return () => window.removeEventListener("keydown", handleEsc)
-  }, [])
+    window.addEventListener("keydown", handleEsc);
+    return () => window.removeEventListener("keydown", handleEsc);
+  }, []);
 
   return (
     <>
@@ -54,6 +54,18 @@ export default function Home() {
             </button>
 
             <div className="flex items-center gap-8">
+              <Link
+                href="/menu"
+                className="hidden text-sm uppercase tracking-widest text-white md:block"
+              >
+                Menu
+              </Link>
+              <Link
+                href="/about"
+                className="hidden text-sm uppercase tracking-widest text-white md:block"
+              >
+                About
+              </Link>
               <button
                 className="hidden text-sm uppercase tracking-widest text-white md:block"
                 onClick={() => setReservationOpen(true)}
@@ -75,11 +87,13 @@ export default function Home() {
         <div
           className={cn(
             "fixed inset-0 z-50 flex flex-col bg-[#121212] transition-transform duration-700 ease-in-out",
-            menuOpen ? "translate-x-0" : "translate-x-full",
+            menuOpen ? "translate-x-0" : "translate-x-full"
           )}
         >
           <div className="container flex h-24 items-center justify-between px-6">
-            <span className="font-serif text-2xl font-light tracking-tighter text-white">FA-RAYS</span>
+            <span className="font-serif text-2xl font-light tracking-tighter text-white">
+              FA-RAYS
+            </span>
 
             <button
               className="flex h-12 w-12 items-center justify-center rounded-full border border-white/30 text-white"
@@ -107,10 +121,10 @@ export default function Home() {
                 <button
                   className="block font-serif text-4xl font-light text-white md:text-7xl"
                   onClick={() => {
-                    setMenuOpen(false)
-                    const element = document.getElementById(item.toLowerCase())
+                    setMenuOpen(false);
+                    const element = document.getElementById(item.toLowerCase());
                     if (element) {
-                      element.scrollIntoView({ behavior: "smooth" })
+                      element.scrollIntoView({ behavior: "smooth" });
                     }
                   }}
                 >
@@ -134,17 +148,30 @@ export default function Home() {
         </div>
 
         {/* Reservation panel */}
-        <ReservationPanel open={reservationOpen} onClose={() => setReservationOpen(false)} />
+        <ReservationPanel
+          open={reservationOpen}
+          onClose={() => setReservationOpen(false)}
+        />
 
         {/* Hero Section */}
         <section className="relative h-screen overflow-hidden">
           <div className="absolute inset-0 bg-black/40 mix-blend-multiply"></div>
 
-          <motion.div className="absolute inset-0 z-0" style={{ scale: heroImageScale }}>
-            <img src="/hero-image.jpg" alt="Exquisite dish presentation" className="h-full w-full object-cover" />
+          <motion.div
+            className="absolute inset-0 z-0"
+            style={{ scale: heroImageScale }}
+          >
+            <img
+              src="/hero-image.jpg"
+              alt="Exquisite dish presentation"
+              className="h-full w-full object-cover"
+            />
           </motion.div>
 
-          <motion.div className="absolute inset-0 z-10 flex items-center justify-center" style={{ y: heroTextY }}>
+          <motion.div
+            className="absolute inset-0 z-10 flex items-center justify-center"
+            style={{ y: heroTextY }}
+          >
             <div className="container px-6">
               <div className="mx-auto max-w-3xl">
                 <motion.div
@@ -199,7 +226,9 @@ export default function Home() {
               transition={{ delay: 1.2, duration: 0.8 }}
               className="flex flex-col items-center gap-2"
             >
-              <span className="text-xs uppercase tracking-widest text-white/70">Scroll to explore</span>
+              <span className="text-xs uppercase tracking-widest text-white/70">
+                Scroll to explore
+              </span>
               <div className="h-12 w-[1px] bg-gradient-to-b from-white/0 to-white/50"></div>
             </motion.div>
           </div>
@@ -214,7 +243,9 @@ export default function Home() {
             <div className="grid gap-16 md:grid-cols-2 md:gap-24">
               <div className="relative">
                 <div className="sticky top-32">
-                  <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">Our Philosophy</span>
+                  <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">
+                    Our Philosophy
+                  </span>
                   <h2 className="font-serif text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
                     Always expect <br />
                     <span className="italic">GREAT TASTE,</span> <br />
@@ -225,10 +256,14 @@ export default function Home() {
 
                   <div className="mt-8 space-y-6 text-black/70">
                     <p>
-                      At Fa-Rays Family Restaurant we take pride in the quality of each and every meal. If it's not
-                      perfect and made just the way you ordered it, we won't send it out.
+                      At Fa-Rays Family Restaurant we take pride in the quality
+                      of each and every meal. If it's not perfect and made just
+                      the way you ordered it, we won't send it out.
                     </p>
-                    <p>We guarantee the food delivered to your table is of the best quality you could have ordered.</p>
+                    <p>
+                      We guarantee the food delivered to your table is of the
+                      best quality you could have ordered.
+                    </p>
                   </div>
 
                   <div className="mt-12">
@@ -245,7 +280,11 @@ export default function Home() {
 
               <div className="space-y-24">
                 <div className="aspect-[4/5] overflow-hidden">
-                  <img src="/chef-portrait.jpg" alt="Chef preparing a dish" className="h-full w-full object-cover" />
+                  <img
+                    src="/chef-portrait.jpg"
+                    alt="Chef preparing a dish"
+                    className="h-full w-full object-cover"
+                  />
                 </div>
 
                 <div className="aspect-[4/5] overflow-hidden">
@@ -264,7 +303,9 @@ export default function Home() {
         <section id="menu" className="bg-[#121212] py-24 text-white md:py-32">
           <div className="container px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="mb-3 block text-sm uppercase tracking-widest text-white/40">Seasonal Menu</span>
+              <span className="mb-3 block text-sm uppercase tracking-widest text-white/40">
+                Seasonal Menu
+              </span>
               <h2 className="font-serif text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
                 A <span className="italic">symphony</span> of flavors
               </h2>
@@ -272,8 +313,9 @@ export default function Home() {
               <div className="mx-auto mt-8 h-[1px] w-24 bg-white/20"></div>
 
               <p className="mx-auto mt-8 max-w-xl text-white/70">
-                Our menu changes with the seasons, highlighting the freshest ingredients at their peak. Each dish tells
-                a story of tradition, innovation, and respect for ingredients.
+                Our menu changes with the seasons, highlighting the freshest
+                ingredients at their peak. Each dish tells a story of tradition,
+                innovation, and respect for ingredients.
               </p>
             </div>
 
@@ -291,7 +333,8 @@ export default function Home() {
                   },
                   {
                     name: "BACON CHEDDAR BURGER",
-                    description: "Double patty burger with crispy bacon and melted cheddar cheese. Served with fries.",
+                    description:
+                      "Double patty burger with crispy bacon and melted cheddar cheese. Served with fries.",
                     price: "$12.29",
                     image: "/featured-burger.jpg",
                     category: "Burgers",
@@ -306,7 +349,8 @@ export default function Home() {
                   },
                   {
                     name: "BROASTED CHICKEN DINNER",
-                    description: "Our famous broasted chicken served with choice of potato and side dish.",
+                    description:
+                      "Our famous broasted chicken served with choice of potato and side dish.",
                     price: "$12.99",
                     image: "/featured-broasted-chicken.jpg",
                     category: "Dinners",
@@ -348,10 +392,14 @@ export default function Home() {
                         {item.category}
                       </div>
                       <div className="flex items-center justify-between">
-                        <h3 className="font-serif text-xl font-light">{item.name}</h3>
+                        <h3 className="font-serif text-xl font-light">
+                          {item.name}
+                        </h3>
                         <span className="text-white/80">{item.price}</span>
                       </div>
-                      <p className="mt-2 text-sm text-white/60">{item.description}</p>
+                      <p className="mt-2 text-sm text-white/60">
+                        {item.description}
+                      </p>
                     </div>
                   </motion.div>
                 ))}
@@ -376,7 +424,9 @@ export default function Home() {
         <section id="gallery" className="py-24 md:py-32">
           <div className="container px-6">
             <div className="mb-16 md:mb-24">
-              <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">Gallery</span>
+              <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">
+                Gallery
+              </span>
               <div className="flex flex-wrap items-end justify-between gap-4">
                 <h2 className="font-serif text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
                   Visual <span className="italic">feast</span>
@@ -435,7 +485,9 @@ export default function Home() {
         <section className="bg-[#F3EFE9] py-24 md:py-32">
           <div className="container px-6">
             <div className="mx-auto max-w-3xl text-center">
-              <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">Testimonials</span>
+              <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">
+                Testimonials
+              </span>
               <h2 className="font-serif text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
                 <span className="italic">Voices</span> of our guests
               </h2>
@@ -443,12 +495,15 @@ export default function Home() {
               <div className="mx-auto mt-16 space-y-12 md:mt-24">
                 <div>
                   <p className="font-serif text-2xl font-light italic leading-relaxed md:text-3xl">
-                    "An extraordinary culinary journey that delights all the senses. The attention to detail in every
-                    dish is remarkable."
+                    "An extraordinary culinary journey that delights all the
+                    senses. The attention to detail in every dish is
+                    remarkable."
                   </p>
                   <div className="mt-6">
                     <div className="font-medium">Emily Johnson</div>
-                    <div className="text-sm text-black/60">Food Critic, Culinary Magazine</div>
+                    <div className="text-sm text-black/60">
+                      Food Critic, Culinary Magazine
+                    </div>
                   </div>
                 </div>
               </div>
@@ -461,7 +516,9 @@ export default function Home() {
           <div className="container px-6">
             <div className="grid gap-16 md:grid-cols-2 md:gap-24">
               <div>
-                <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">Contact</span>
+                <span className="mb-3 block text-sm uppercase tracking-widest text-black/40">
+                  Contact
+                </span>
                 <h2 className="font-serif text-4xl font-light leading-tight md:text-5xl lg:text-6xl">
                   Get in <span className="italic">touch</span>
                 </h2>
@@ -470,7 +527,9 @@ export default function Home() {
 
                 <div className="mt-12 space-y-8">
                   <div>
-                    <div className="text-sm uppercase tracking-widest text-black/40">Location</div>
+                    <div className="text-sm uppercase tracking-widest text-black/40">
+                      Location
+                    </div>
                     <div className="mt-2 flex items-start gap-2">
                       <MapPin className="mt-1 h-5 w-5 flex-shrink-0 text-black/40" />
                       <div>
@@ -481,17 +540,25 @@ export default function Home() {
                   </div>
 
                   <div>
-                    <div className="text-sm uppercase tracking-widest text-black/40">Hours</div>
-                    <div className="mt-2 text-lg">Tuesday - Sunday, 5:00 PM - 11:00 PM</div>
+                    <div className="text-sm uppercase tracking-widest text-black/40">
+                      Hours
+                    </div>
+                    <div className="mt-2 text-lg">
+                      Tuesday - Sunday, 5:00 PM - 11:00 PM
+                    </div>
                   </div>
 
                   <div>
-                    <div className="text-sm uppercase tracking-widest text-black/40">Contact</div>
+                    <div className="text-sm uppercase tracking-widest text-black/40">
+                      Contact
+                    </div>
                     <div className="mt-2 flex items-center gap-2 text-lg">
                       <Phone className="h-5 w-5 text-black/40" />
                       (330) 745-6091
                     </div>
-                    <div className="mt-1 text-lg">faraysfamilyrestaurant@gmail.com</div>
+                    <div className="mt-1 text-lg">
+                      faraysfamilyrestaurant@gmail.com
+                    </div>
                   </div>
                 </div>
 
@@ -526,12 +593,20 @@ export default function Home() {
         <footer className="border-t border-black/10 py-12">
           <div className="container px-6">
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-              <div className="font-serif text-xl font-light tracking-tighter">FA-RAYS FAMILY RESTAURANT</div>
+              <div className="font-serif text-xl font-light tracking-tighter">
+                FA-RAYS FAMILY RESTAURANT
+              </div>
 
               <div className="flex gap-8">
                 {[
-                  { name: "Facebook", url: "https://www.facebook.com/FaRaysFamilyRestaurant" },
-                  { name: "Instagram", url: "https://www.instagram.com/faraysrestaurant/" },
+                  {
+                    name: "Facebook",
+                    url: "https://www.facebook.com/FaRaysFamilyRestaurant",
+                  },
+                  {
+                    name: "Instagram",
+                    url: "https://www.instagram.com/faraysrestaurant/",
+                  },
                 ].map((item) => (
                   <a
                     key={item.name}
@@ -545,11 +620,13 @@ export default function Home() {
                 ))}
               </div>
 
-              <div className="text-sm text-black/60">© {new Date().getFullYear()} FA-RAYS. Powered by RDJ Media.</div>
+              <div className="text-sm text-black/60">
+                © {new Date().getFullYear()} FA-RAYS. Powered by RDJ Media.
+              </div>
             </div>
           </div>
         </footer>
       </div>
     </>
-  )
+  );
 }
